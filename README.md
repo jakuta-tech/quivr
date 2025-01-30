@@ -1,181 +1,221 @@
 # Quivr - Your Second Brain, Empowered by Generative AI
 
 <div align="center">
-    <img src="./logo.png" alt="Quivr-logo" width="30%"  style="border-radius: 50%; padding-bottom: 20px"/>
+    <img src="./logo.png" alt="Quivr-logo" width="31%"  style="border-radius: 50%; padding-bottom: 20px"/>
 </div>
 
-<div align="center">
-<a href="https://discord.gg/HUpRgp2HG8">
-  <img src="https://img.shields.io/badge/discord-join%20chat-blue.svg" alt="Join our Discord" height="40">
-</a>
-</div>
+[![Discord Follow](https://dcbadge.vercel.app/api/server/HUpRgp2HG8?style=flat)](https://discord.gg/HUpRgp2HG8)
+[![GitHub Repo stars](https://img.shields.io/github/stars/quivrhq/quivr?style=social)](https://github.com/quivrhq/quivr)
+[![Twitter Follow](https://img.shields.io/twitter/follow/StanGirard?style=social)](https://twitter.com/_StanGirard)
 
-Quivr, your second brain, utilizes the power of GenerativeAI to store and retrieve unstructured information. Think of it as Obsidian, but turbocharged with AI capabilities.
-
-[Roadmap here](https://brain.quivr.app)
+Quivr, helps you build your second brain, utilizes the power of GenerativeAI to be your personal assistant !
 
 ## Key Features 🎯
 
-- **Universal Data Acceptance**: Quivr can handle almost any type of data you throw at it. Text, images, code snippets, we've got you covered.
-- **Generative AI**: Quivr employs advanced AI to assist you in generating and retrieving information.
-- **Fast and Efficient**: Designed with speed and efficiency at its core. Quivr ensures rapid access to your data.
-- **Secure**: Your data, your control. Always.
-- **OS Compatible**: Ubuntu 22 or upper.
-- **File Compatibility**: 
-  - Text
-  - Markdown
-  - PDF
-  - Powerpoint
-  - Excel (Not Yet)
-  - Csv
-  - Word
-  - Audio
-  - Video
-- **Open Source**: Freedom is beautiful, so is Quivr. Open source and free to use.
+- **Opiniated RAG**: We created a RAG that is opinionated, fast and efficient so you can focus on your product
+- **LLMs**: Quivr works with any LLM, you can use it with OpenAI, Anthropic, Mistral, Gemma, etc.
+- **Any File**: Quivr works with any file, you can use it with PDF, TXT, Markdown, etc and even add your own parsers.
+- **Customize your RAG**: Quivr allows you to customize your RAG, add internet search, add tools, etc.
+- **Integrations with Megaparse**: Quivr works with [Megaparse](https://github.com/quivrhq/megaparse), so you can ingest your files with Megaparse and use the RAG with Quivr.
 
-## Demo Highlights 🎥
+>We take care of the RAG so you can focus on your product. Simply install quivr-core and add it to your project. You can now ingest your files and ask questions.*
 
-https://github.com/StanGirard/quivr/assets/19614572/a6463b73-76c7-4bc0-978d-70562dca71f5
+**We will be improving the RAG and adding more features, stay tuned!**
 
-## Getting Started: 🚀
 
-Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
+This is the core of Quivr, the brain of Quivr.com.
 
-You can find everything on the documentation [here](https://brain.quivr.app/)
+<!-- ## Demo Highlight 🎥
+
+https://github.com/quivrhq/quivr/assets/19614572/a6463b73-76c7-4bc0-978d-70562dca71f5 -->
+
+## Getting Started 🚀
+
+You can find everything on the [documentation](https://core.quivr.com/).
 
 ### Prerequisites 📋
 
-Before you proceed, ensure you have the following installed:
+Ensure you have the following installed:
 
-- Docker
-- Docker Compose
+- Python 3.10 or newer
 
-Additionally, you'll need a [Supabase](https://supabase.com/) account for:
+### 30 seconds Installation 💽
 
-- Creating a new Supabase project
-- Supabase Project API key
-- Supabase Project URL
 
-### Installation Steps 💽
+- **Step 1**: Install the package
 
-- **Step 0**: If needed, the installation is explained on Youtube [here](https://youtu.be/rC-s4QdfY80)
-
-- **Step 1**: Clone the repository using **one** of these commands:
-
-  - If you don't have an SSH key set up:
   
+
   ```bash
-  git clone https://github.com/StanGirard/Quivr.git && cd Quivr
-  ```
-  - If you have an SSH key set up or want to add it ([guide here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account))
-  
-  ```bash
-  git clone git@github.com:StanGirard/Quivr.git && cd Quivr
+  pip install quivr-core # Check that the installation worked
   ```
 
-- **Step 2**: Use the install helper
 
-You can use the install_helper.sh script to setup your env files
+- **Step 2**: Create a RAG with 5 lines of code
 
-```bash
-brew install gum # Windows (via Scoop) scoop install charm-gum
+  ```python
+  import tempfile
 
-chmod +x install_helper.sh
-./install_helper.sh
-```
+  from quivr_core import Brain
 
-- **Step 2 - Bis**: Copy the `.XXXXX_env` files
+  if __name__ == "__main__":
+      with tempfile.NamedTemporaryFile(mode="w", suffix=".txt") as temp_file:
+          temp_file.write("Gold is a liquid of blue-like colour.")
+          temp_file.flush()
 
-```bash
-cp .backend_env.example backend/.env
-cp .frontend_env.example frontend/.env
-```
+          brain = Brain.from_files(
+              name="test_brain",
+              file_paths=[temp_file.name],
+          )
 
-- **Step 3**: Update the `backend/.env` and `frontend/.env` file 
+          answer = brain.ask(
+              "what is gold? asnwer in french"
+          )
+          print("answer:", answer)
+  ```
+## Configuration
 
-> _Your `supabase_service_key` can be found in your Supabase dashboard under Project Settings -> API. Use the `anon` `public` key found in the `Project API keys` section._
+### Workflows
 
+#### Basic RAG
 
-> _Your  `JWT_SECRET_KEY`can be found in your supabase settings under Project Settings -> API -> JWT Settings -> JWT Secret_
-
-> _To activate vertexAI with PaLM from GCP follow the instructions [here](https://python.langchain.com/en/latest/modules/models/llms/integrations/google_vertex_ai_palm.html) and update `backend/.env`- It is an advanced feature, please be expert in GCP before trying to use it_
-
-- [ ] Change variables in `backend/.env`
-- [ ] Change variables in `frontend/.env`
-
-- **Step 4**: Run the following migration scripts on the Supabase database via the web interface (SQL Editor -> `New query`)
-
-Use the `migration.sh` script to run the migration scripts
-
-```bash
-chmod +x migration.sh
-./migration.sh
-```
-
-And choose either create_scripts if it's your first time or migrations if you are updating your database.
+![](docs/docs/workflows/examples/basic_rag.excalidraw.png)
 
 
-All the scripts can be found in the [scripts](scripts/) folder
-> _If you come from an old version of Quivr, run the scripts in [migration script](scripts/) to migrate your data to the new version in the order of date_
+Creating a basic RAG workflow like the one above is simple, here are the steps:
 
-- **Step 5**: Launch the app
 
-```bash
-docker compose -f docker-compose.yml up --build
-```
-
-- **Step 6**: Navigate to `localhost:3000` in your browser
-
-- **Step 7**: Want to contribute to the project? 
+1. Add your API Keys to your environment variables
+```python
+import os
+os.environ["OPENAI_API_KEY"] = "myopenai_apikey"
 
 ```
-docker compose -f docker-compose.dev.yml up --build
+Quivr supports APIs from Anthropic, OpenAI, and Mistral. It also supports local models using Ollama.
+
+1. Create the YAML file ``basic_rag_workflow.yaml`` and copy the following content in it
+```yaml
+workflow_config:
+  name: "standard RAG"
+  nodes:
+    - name: "START"
+      edges: ["filter_history"]
+
+    - name: "filter_history"
+      edges: ["rewrite"]
+
+    - name: "rewrite"
+      edges: ["retrieve"]
+
+    - name: "retrieve"
+      edges: ["generate_rag"]
+
+    - name: "generate_rag" # the name of the last node, from which we want to stream the answer to the user
+      edges: ["END"]
+
+# Maximum number of previous conversation iterations
+# to include in the context of the answer
+max_history: 10
+
+# Reranker configuration
+reranker_config:
+  # The reranker supplier to use
+  supplier: "cohere"
+
+  # The model to use for the reranker for the given supplier
+  model: "rerank-multilingual-v3.0"
+
+  # Number of chunks returned by the reranker
+  top_n: 5
+
+# Configuration for the LLM
+llm_config:
+
+  # maximum number of tokens passed to the LLM to generate the answer
+  max_input_tokens: 4000
+
+  # temperature for the LLM
+  temperature: 0.7
 ```
 
+3. Create a Brain with the default configuration
+```python
+from quivr_core import Brain
+
+brain = Brain.from_files(name = "my smart brain",
+                        file_paths = ["./my_first_doc.pdf", "./my_second_doc.txt"],
+                        )
+
+```
+
+4. Launch a Chat
+```python
+brain.print_info()
+
+from rich.console import Console
+from rich.panel import Panel
+from rich.prompt import Prompt
+from quivr_core.config import RetrievalConfig
+
+config_file_name = "./basic_rag_workflow.yaml"
+
+retrieval_config = RetrievalConfig.from_yaml(config_file_name)
+
+console = Console()
+console.print(Panel.fit("Ask your brain !", style="bold magenta"))
+
+while True:
+    # Get user input
+    question = Prompt.ask("[bold cyan]Question[/bold cyan]")
+
+    # Check if user wants to exit
+    if question.lower() == "exit":
+        console.print(Panel("Goodbye!", style="bold yellow"))
+        break
+
+    answer = brain.ask(question, retrieval_config=retrieval_config)
+    # Print the answer with typing effect
+    console.print(f"[bold green]Quivr Assistant[/bold green]: {answer.answer}")
+
+    console.print("-" * console.width)
+
+brain.print_info()
+```
+
+5. You are now all set up to talk with your brain and test different retrieval strategies by simply changing the configuration file!
+
+## Go further
+
+You can go further with Quivr by adding internet search, adding tools, etc. Check the [documentation](https://core.quivr.com/) for more information.
 
 
 ## Contributors ✨
 
-Thanks goes to these wonderful people:
-<a href="https://github.com/stangirard/quivr/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=stangirard/quivr" />
+Thanks go to these wonderful people:
+<a href="https://github.com/quivrhq/quivr/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=quivrhq/quivr" />
 </a>
 
 ## Contribute 🤝
 
-Got a pull request? Open it, and we'll review it as soon as possible. Check out our project board [here](https://github.com/users/StanGirard/projects/5) to see what we're currently focused on, and feel free to bring your fresh ideas to the table!
+Did you get a pull request? Open it, and we'll review it as soon as possible. Check out our project board [here](https://github.com/users/StanGirard/projects/5) to see what we're currently focused on, and feel free to bring your fresh ideas to the table!
+
+- [Open Issues](https://github.com/quivrhq/quivr/issues)
+- [Open Pull Requests](https://github.com/quivrhq/quivr/pulls)
+- [Good First Issues](https://github.com/quivrhq/quivr/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
+
+## Partners ❤️
+
+This project would not be possible without the support of our partners. Thank you for your support!
 
 
-- [Open Issues](https://github.com/StanGirard/quivr/issues)
-- [Open Pull Requests](https://github.com/StanGirard/quivr/pulls)
-- [Good First Issues](https://github.com/StanGirard/quivr/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
-- [Frontend Issues](https://github.com/StanGirard/quivr/issues?q=is%3Aopen+is%3Aissue+label%3Afrontend)
-- [Backend Issues](https://github.com/StanGirard/quivr/issues?q=is%3Aopen+is%3Aissue+label%3Abackend)
-
-## Sponsors ❤️
-
-This project could not be possible without the support of our sponsors. Thank you for your support!
-
+<a href="https://ycombinator.com/">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Y_Combinator_logo.svg/1200px-Y_Combinator_logo.svg.png" alt="YCombinator" style="padding: 10px" width="70px">
+</a>
 <a href="https://www.theodo.fr/">
   <img src="https://avatars.githubusercontent.com/u/332041?s=200&v=4" alt="Theodo" style="padding: 10px" width="70px">
 </a>
-<a href="https://www.padok.fr/">
-  <img src="https://avatars.githubusercontent.com/u/46325765?s=200&v=4" alt="Padok" style="padding: 10px" width="70px">
-</a>
-<a href="https://www.aleios.com/">
-  <img src="https://avatars.githubusercontent.com/u/97908131?s=200&v=4" alt="Aleios" style="padding: 10px" width="70px">
-</a>
-<a href="https://www.bam.tech/">
-  <img src="https://avatars.githubusercontent.com/u/9597329?s=200&v=4" alt="BAM" style="padding: 10px" width="70px">
-</a>
-
-
 
 ## License 📄
 
 This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details
-
-
-## Stars History 📈
-
-[![Star History Chart](https://api.star-history.com/svg?repos=StanGirard/quivr&type=Timeline)](https://star-history.com/#StanGirard/quivr&Timeline)
